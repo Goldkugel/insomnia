@@ -1,3 +1,12 @@
+library(stringr)
+library(dplyr)
+library(behavr)
+library(tidyverse)
+library(zeitgebr)
+library(ggetho)
+library(ggplot2)
+library(ggpubr)
+
 ZERO = 0
 ONE = 1
 TWO = 2
