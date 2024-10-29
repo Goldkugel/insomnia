@@ -1,5 +1,3 @@
-library(tidyr)
-
 # Checks the created segments, if they are suitable of all four possible
 # function which can determine the periodicity of the function. A new column 
 # will be added to the data which denotes if a segment is valid or not. If
@@ -7,6 +5,10 @@ library(tidyr)
 # if the segment is not valid but the other way around will not happen. With
 # this feature it is possible to verify if a segment can be used to calculate
 # the periodicity based on different columns in data.
+#
+# Additionally to check the segments, also the rows which do not have a value
+# in the data_column column will be deleted and ONLY the data fields id_column,
+# data_column, and segment_column will be processed further. 
 #
 # data: a dataframe.
 # data_column: the column in which the data is stored e.g. heartrate.
@@ -28,8 +30,8 @@ checkSegments <- function
     segment_column = "segment_id",
     non_NA_values = TWENTY,
     different_values = FIVE,
-    output = "./.checkSegmentsResult.csv",
-    statistics = "./.checkSegmentsStatistics.csv"
+    output = "./checkSegmentsResult.csv",
+    statistics = "./checkSegmentsStatistics.csv"
 ) 
 {
   
@@ -60,8 +62,9 @@ checkSegments <- function
   
   # Since binding one data frame to each other is time consuming, the data will
   # be exported in a csv file. 
-  result <- data.frame(data)
-  result[segment_column] <- rep(-ONE, nrow(data))
+  columns <- c(data_column, segment_column, id_column, time_column)
+  result <- data.frame(matrix(nrow = 0, ncol = length(columns))) 
+  colnames(result) <- columns
   result <- data.frame(result)[FALSE,]
   
   # Write just the header in the file.
@@ -99,7 +102,7 @@ checkSegments <- function
     icu_stay_count <- icu_stay_count + ONE
     
     # Print the current progress.
-    print(icu_stay_count / length(icu_stay_ids[, id_column]))
+    # print(icu_stay_count / length(icu_stay_ids[, id_column]))
     
     # Get all the rows of the ICU stay.
     icu_stay_rows <- data[data[, id_column] == icu_stay_id, ]
@@ -128,9 +131,11 @@ checkSegments <- function
 
       # If the conditions are fulfilled, the segments can be saved.
       if (unique_values >= different_values & no_NA_values >= non_NA_values) {
+        save <- drop_na(segment_rows[, c(data_column, segment_column, id_column, time_column)])
+        
         # Save the segment rows in the file. 
         write.table(
-          segment_rows, 
+          save, 
           file = output, 
           append = TRUE, 
           col.names = FALSE, 

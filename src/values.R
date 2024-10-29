@@ -6,6 +6,7 @@ library(zeitgebr)
 library(ggetho)
 library(ggplot2)
 library(ggpubr)
+library(tidyr)
 
 ZERO = 0
 ONE = 1

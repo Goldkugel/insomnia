@@ -16,7 +16,7 @@
 # and ends at 16.
 #
 # data: a dataframe.
-# time_column: the column in which the time in milliseconds is saved.
+# time_column: the column in which the time in seconds is saved.
 # id_column: the column in which the ids of interest are saved e.g. ICU stay 
 #   ids.
 # segment_length: the length of the segments in seconds.
@@ -35,8 +35,8 @@ addSegment <- function
     segment_length = THREE * SEC_PER_DAY,
     segment_offset = SEC_PER_DAY,
     segment_column = "segment_id",
-    output = "./.addSegmentsResult.csv",
-    statistics = "./.addSegmentsStatistics.csv"
+    output = "./addSegmentsResult.csv",
+    statistics = "./addSegmentsStatistics.csv"
 ) 
 {
   
@@ -99,7 +99,7 @@ addSegment <- function
     icu_stay_count <- icu_stay_count + ONE
     
     # Print the current progress.
-    print(icu_stay_count / length(icu_stay_ids[, id_column]))
+    # print(icu_stay_count / length(icu_stay_ids[, id_column]))
     rows <- data[data[, id_column] == icu_stay_id, ]
     
     max_time <- max(rows[time_column])
