@@ -119,7 +119,8 @@ addSegment <- function
       # Get all rows which belong to the segment. 
       segment_rows <- rows[
         rows[time_column] >= segment_offset * (segment_id - ONE) & 
-        rows[time_column] <  segment_offset * segment_id + segment_length
+        rows[time_column] <  segment_offset * (segment_id - ONE) + 
+          segment_length
       ,]
       
       # If the segment contains some data it is worthy to be saved.

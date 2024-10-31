@@ -1,13 +1,38 @@
 # This function calculates the periods of the segment "segment" of the ICU stay 
 # "id" depending on the given funtion "fun". "fun" can be one of the following 
 # values: "ls_periodogram", "fourier_periodogram", "ac_periodogram", 
-# "cwt_periodogram"
+# "cwt_periodogram", "chi_sq_periodogram"
 # "data_column" contains the column which contains the values on which the
 # periods will be calculated. "start" and "end" define the boundaries in which 
 # periods will be searched.
+# 
+# Tested:
 # fourier_periodogram ok
 # cwt_periodogram start > 0
 # ls_periodogram start > 0
+# chi_sq_periodogram ok
+# 
+# data: the data frame containing the segmented data. 
+# data_column: a string, denoting the column which contains the data to analyze.
+# id: a string or integer denoting the ID in the "id_column" which needs to be 
+#   analyzed.
+# fun: the function as a string which should be used. One of the following is
+#   possible: fourier_periodogram, cwt_periodogram, ls_periodogram start, 
+#   chi_sq_periodogram. If using cwt_periodogram or ls_periodogram, make sure
+#   that "start" is greater than zero.
+# time_column: a string denoting the column in which the time is stored. 
+# id_column: a string denoting the column in which the IDs are stored.
+# segment_column: a string denoting the column in which the segment numbers are 
+#   stored.
+# start: an integer denoting the amount of seconds from which period length 
+#   should be started.
+# end: an integer denoting the amount of seconds at which period length should 
+#   be ended.
+# segment_number: an integer denoting the target segment.
+# output: a string denoting the path of the output file.
+# statistics: a string denoting the path of the statistics file.
+# append: if the statistics an output file should be overwritten or extended.
+#
 getPeriods <- function
 (
   data, 
@@ -44,12 +69,7 @@ getPeriods <- function
     print("end has to be greater than start\n");
     return(NULL)
   }
-  
-  if (different_values < ONE) {
-    print("The different_values has to be greater than one\n");
-    return(NULL)
-  }
-  
+
   icu_stay_data = data[data[id_column] == id, ]
   segment_data = icu_stay_data[icu_stay_data[segment_column] == segment_number, ]
   

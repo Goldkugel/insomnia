@@ -10,18 +10,23 @@
 # in the data_column column will be deleted and ONLY the data fields id_column,
 # data_column, and segment_column will be processed further. 
 #
-# data: a dataframe.
-# data_column: the column in which the data is stored e.g. heartrate.
-# id_column: the column in which the ids of interest are saved e.g. ICU stay 
-#   ids.
-# segment_column: the column in which the id/number of segment is stored.
-# non_NA_values: the minimum amount of values which need to be set per segment.
-# different_values: the minimum amount of different values in one segment.
-# output: the file in which the output is stored. This file will be cleared at
-#   the beginning.
-# statistics: the file in which the statistics are stored. This file will be
-#   cleared in the beginning. 
+# data: a dataframe containing the data.
+# data_column: a string denoting the column in which the data is stored e.g. 
+#   "Heartrate".
+# id_column: a string denoting the column in which the ids of interest are 
+#   saved e.g. "ICU_stay_id".
+# segment_column: a string denoting the column in which the id/number of 
+#   segment is stored.
+# non_NA_values: an integer denoting the minimum amount of values which need to 
+#   be set per segment.
+# different_values: a integer denoting the minimum amount of different values 
+#   in one segment.
+# output: a string denoting the file path in which the output is stored. This 
+#   file will be cleared at the beginning.
+# statistics: a string denoting the file path in which the statistics are 
+#   stored. This file will be cleared in the beginning. 
 #
+# TODO: sort depending on time
 checkSegments <- function
 (
     data, 
